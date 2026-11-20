@@ -40,6 +40,8 @@ aplicar_temp_seguro()
 from app import storage as erp_storage  # noqa: E402
 from app.erp.centauro import CentauroERP  # noqa: E402
 
+from classificador import classificar_produto, norm_txt  # noqa: E402
+
 PRODUTOS_JSON = SITE_DIR / "produtos.json"
 PRODUTOS_JS = SITE_DIR / "produtos.js"
 
@@ -50,37 +52,13 @@ MIN_AUTO_SYNC_INTERVAL_S = 30
 _TAG_RE = re.compile(r"<[^>]+>")
 _PRICE_RE = re.compile(r"[\d.,]+")
 
-# Regras de classificacao automatica para produtos novos cadastrados no ERP
-_DEPT_RULES: list[tuple[str, tuple[str, ...]]] = [
-    ("Argamassas e Rejuntes", ("argamassa", "rejunte", "impermeabiliz", "vedacit", "bianco", "vedapren", "sika", "manta liquida")),
-    ("Cimento, Blocos e Telhas", ("cimento", "areia", "brita", "bloco", "tijolo", "telha", "cal ", "cal hidrat", "vergalhao", "trelica")),
-    ("Tintas", ("tinta", "verniz", "selador", "massa corrida", "massa acrilica", "aguarras", "thinner", "solvente", "esmalte", "spray", "textura", "grafiato", "corante", "zarc")),
-    ("Hidráulica", ("tubo", "cano", "joelho", "cotovelo", "te sold", "luva ", "registro", "valvula", "sifao", "ralo", "caixa d'agua", "caixa dagua", "boia", "calha", "anel borracha", "fita veda", "adaptador", "nipple", "niple", "engate", "flange", "cap ", "plug ")),
-    ("Elétrica e Iluminação", ("cabo flex", "fio ", "disjuntor", "tomada", "interruptor", "lampada", "led", "eletroduto", "conduite", "fita isolante", "quadro distrib", "plugue", "benjamin", "extensao", "luminaria", "spot ", "refletor", "sensor presenca", "campainha", "chuveiro", "resistencia")),
-    ("Banheiro e Cozinha", ("torneira", "ducha", "vaso sanit", "assento sanit", "lavatorio", "cuba", "pia ", "tanque", "armario p/ banheiro", "espelheira", "acabamento p/ registro", "acabamento p/ valv", "bica para torneira", "saboneteira", "papeleira", "toalheiro", "caixa acoplada")),
-    ("Portas, Janelas e Ferragens", ("fechadura", "cadeado", "dobradica", "trinco", "ferrolho", "puxador", "basculante", "janela", "porta ", "alizar", "guarnicao", "corredica", "macaneta", "olho magico", "mola aerea", "alavanca")),
-    ("Parafusos e Fixação", ("parafuso", "bucha ", "prego", "arruela", "porca", "rebite", "abracadeira", "barra rosc", "chumbador", "grampo", "gancho", "pitão", "pitao", "escápula", "escapula")),
-    ("Segurança (EPI)", ("botina", "bota ", "luva ", "capacete", "oculos", "mascara", "protetor auricular", "cinto seguranca", "epi", "avental")),
-    ("Pisos e Revestimentos", ("piso ", "porcelanato", "ceramica", "revestimento", "rodape", "espacador", "cunha", "nivelador")),
-    ("Ferramentas", ("broca", "alicate", "chave ", "martelo", "marreta", "serrote", "serra", "disco ", "lixa", "trena", "nivel", "esquadro", "colher pedreiro", "desempenadeira", "espátula", "espatula", "rolo ", "pincel", "trincha", "broxa", "arco de serra", "aplicador", "bits", "furadeira", "esmerilhadeira", "talhadeira", "ponteiro", "enxada", "pa ", "picareta", "cavadeira", "estilete", "tesoura")),
-]
-
 
 def _norm_txt(s: str) -> str:
-    import unicodedata
-
-    s = unicodedata.normalize("NFKD", (s or "").lower())
-    return "".join(c for c in s if not unicodedata.combining(c))
+    return norm_txt(s)
 
 
 def _classificar_setor(nome: str, mapa_existente: dict[str, str], codigo: str) -> str:
-    if codigo and codigo in mapa_existente:
-        return mapa_existente[codigo]
-    n = _norm_txt(nome)
-    for setor, palavras in _DEPT_RULES:
-        if any(p in n for p in palavras):
-            return setor
-    return "Diversos"
+    return classificar_produto(nome)
 
 
 def _parse_br_float(raw: Any) -> float:
