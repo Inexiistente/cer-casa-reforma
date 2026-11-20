@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CeR Casa e Reforma — Soluções construtivas pra sua obra</title>
+<meta name="description" content="Loja de materiais de construção em Nazaré, Belo Horizonte. Cimento, hidráulica, elétrica, tintas, pisos e ferramentas. Rua Bezerra de Menezes, 72.">
+<link rel="canonical" href="https://cercasaereforma.com.br/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:url" content="https://cercasaereforma.com.br/">
+<meta property="og:site_name" content="CeR Casa e Reforma">
+<meta property="og:title" content="CeR Casa e Reforma — Soluções construtivas pra sua obra">
+<meta property="og:description" content="Catálogo de balcão com preços reais em Nazaré, BH. Monte sua lista de obra e envie direto no WhatsApp.">
+<meta property="og:image" content="https://cercasaereforma.com.br/assets/logo.jpeg">
+<meta name="theme-color" content="#0a0a09">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,500;0,700;0,800;0,900;1,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="noise-overlay" aria-hidden="true"></div>
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+<a class="skip" href="#catalogo">Pular para o catálogo</a>
+
+<!-- Faixa técnica superior -->
+<div class="spec-bar">
+  <div class="wrap spec-bar__inner">
+    <span class="spec-bar__loc">NAZARÉ · BELO HORIZONTE · RUA BEZERRA DE MENEZES, 72</span>
+    <span class="spec-bar__status">
+      <span class="dot" id="statusDot"></span>
+      <span id="statusText">Verificando horário…</span>
+    </span>
+  </div>
+</div>
+
+<header class="top">
+  <div class="wrap top__bar">
+    <a class="brand" href="#topo" aria-label="CeR Casa e Reforma, início">
+      <img src="assets/logo.jpeg" alt="CeR Casa e Reforma" width="44" height="44">
+      <span class="brand__text">
+        <strong>CeR</strong>
+        <small>Casa &amp; Reforma</small>
+      </span>
+    </a>
+
+    <nav class="nav" id="mainNav" aria-label="Seções">
+      <span class="nav-indicator" id="navIndicator" aria-hidden="true"></span>
+      <a href="#departamentos">Setores</a>
+      <a href="#calculadora">Calculadora</a>
+      <a href="#catalogo">Catálogo</a>
+      <a href="#loja">A loja</a>
+      <a href="#contato">Endereço</a>
+    </nav>
+
+    <div class="top__actions">
+      <button class="cmd-trigger" id="openCmd" title="Busca rápida (Ctrl+K)">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <span>Buscar</span>
+        <kbd>⌘K</kbd>
+      </button>
+      <button class="cart-btn" id="openDrawer" aria-label="Abrir lista de orçamento">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>
+        <span>Lista</span>
+        <span class="cart-btn__badge" id="headerBadge" hidden>0</span>
+      </button>
+      <a class="btn btn--gold" href="https://wa.me/5531982926011?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20CeR" target="_blank" rel="noopener">
+        WhatsApp
+      </a>
+      <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="topo">
+  <!-- HERO EDITORIAL + BLUEPRINT -->
+  <section class="hero">
+    <canvas class="hero__grid-bg" id="blueprintCanvas" aria-hidden="true"></canvas>
+    <div class="wrap hero__inner">
+      <div class="hero__kicker">
+        <span class="mono">CATÁLOGO DE BALCÃO · EDIÇÃO 2026</span>
+        <span class="mono" id="todayHours">HOJE 08:00 – 18:00</span>
+      </div>
+
+      <h1 class="hero__title" id="heroTitle">
+        <span class="reveal-line">
+          <span class="word-mask" style="--w:0"><span>A</span></span>
+          <span class="word-mask" style="--w:1"><span>obra</span></span>
+          <span class="word-mask" style="--w:2"><span>não</span></span>
+          <span class="word-mask" style="--w:3"><span>espera.</span></span>
+        </span>
+        <span class="reveal-line accent-line">
+          <span class="word-mask" style="--w:4"><span class="accent">A</span></span>
+          <span class="word-mask" style="--w:5"><span class="accent">gente</span></span>
+          <span class="word-mask" style="--w:6"><span class="accent">resolve</span></span>
+          <span class="word-mask" style="--w:7"><span class="accent">no</span></span>
+          <span class="word-mask" style="--w:8"><span class="accent">balcão.</span></span>
+        </span>
+      </h1>
+
+      <div class="hero__split">
+        <div class="hero__lead">
+          <p>Se o cimento faltar, a gente resolve. Se a tinta não combinar, a gente aconselha. Se a dúvida bater, a gente orienta antes de você comprar errado.</p>
+          <div class="hero__cta">
+            <a class="btn btn--gold btn--lg magnetic" href="#catalogo">Explorar <span id="countInline">2.943</span> itens</a>
+            <a class="btn btn--outline btn--lg magnetic" href="#calculadora">Calcular material</a>
+          </div>
+        </div>
+
+        <!-- Ficha técnica da loja (Spotlight Specimen Card) -->
+        <aside class="specimen spotlight tilt-card" aria-label="Resumo da loja">
+          <div class="specimen__head">
+            <img src="assets/logo.jpeg" alt="Logo CeR" width="56" height="56">
+            <div>
+              <span class="mono specimen__tag">LOJA FÍSICA · NAZARÉ</span>
+              <strong>CeR Casa e Reforma</strong>
+            </div>
+          </div>
+          <dl class="specimen__stats">
+            <div>
+              <dt>Itens no estoque</dt>
+              <dd class="mono" data-count="2943" id="countFact">2.943</dd>
+            </div>
+            <div>
+              <dt>Departamentos</dt>
+              <dd class="mono" data-count="16" id="deptCountFact">16</dd>
+            </div>
+            <div>
+              <dt>Atendimento</dt>
+              <dd class="mono">7 dias/sem</dd>
+            </div>
+          </dl>
+          <div class="specimen__foot">
+            <span class="mono">CEP 31990-420 · BH/MG</span>
+            <a href="https://wa.me/5531982926011?text=Ol%C3%A1%2C%20preciso%20de%20ajuda%20com%20um%20material" target="_blank" rel="noopener">Tirar dúvida →</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAIXA DOURADA (Colour Chapter + Marquee de Marcas/Setores) -->
+  <div class="tape" aria-hidden="true">
+    <div class="tape__track">
+      <span>TRAMONTINA</span><span>·</span>
+      <span>DECA</span><span>·</span>
+      <span>LORENZETTI</span><span>·</span>
+      <span>MAKITA</span><span>·</span>
+      <span>CORTAG</span><span>·</span>
+      <span>PLASTUBOS</span><span>·</span>
+      <span>ARGAMASSAS AC1 AC2 AC3</span><span>·</span>
+      <span>HIDRÁULICA &amp; ELÉTRICA</span><span>·</span>
+      <span>TINTAS &amp; PISOS</span><span>·</span>
+      <span>TRAMONTINA</span><span>·</span>
+      <span>DECA</span><span>·</span>
+      <span>LORENZETTI</span><span>·</span>
+      <span>MAKITA</span><span>·</span>
+      <span>CORTAG</span><span>·</span>
+      <span>PLASTUBOS</span><span>·</span>
+      <span>ARGAMASSAS AC1 AC2 AC3</span><span>·</span>
+      <span>HIDRÁULICA &amp; ELÉTRICA</span><span>·</span>
+      <span>TINTAS &amp; PISOS</span><span>·</span>
+    </div>
+  </div>
+
+  <!-- DEPARTAMENTOS (Índice Editorial com Spotlight) -->
+  <section class="depts reveal-section" id="departamentos">
+    <div class="wrap">
+      <div class="section-label section-label--split">
+        <div>
+          <span class="mono" data-scramble>01 / DEPARTAMENTOS</span>
+          <h2>Tudo o que a obra pede, separado por setor.</h2>
+        </div>
+        <span class="mono section-meta">ESTOQUE FÍSICO · PRONTA RETIRADA</span>
+      </div>
+      <div class="dept-grid" id="deptTrack"></div>
+    </div>
+  </section>
+
+  <!-- CALCULADORA DE OBRA (The Product Performs) -->
+  <section class="calc-section reveal-section" id="calculadora">
+    <div class="wrap">
+      <div class="calc-box">
+        <div class="calc-box__info">
+          <span class="mono" data-scramble>02 / CALCULADORA DE BALCÃO</span>
+          <h2>Não sabe quanto levar? Calcula na hora.</h2>
+          <p>Informe a metragem da parede ou do piso e veja a estimativa de material com margem de perda de 10% — e já busque os itens no nosso estoque.</p>
+          <div class="calc-tabs" id="calcTabs" role="tablist">
+            <span class="tab-indicator" aria-hidden="true"></span>
+            <button class="calc-tab active" data-calc="piso" role="tab" aria-selected="true">Piso &amp; Argamassa</button>
+            <button class="calc-tab" data-calc="tinta" role="tab" aria-selected="false">Pintura</button>
+          </div>
+        </div>
+
+        <div class="calc-box__panel">
+          <div class="calc-inputs" id="calcInputs">
+            <label>
+              <span class="mono">ÁREA TOTAL (M²)</span>
+              <input type="number" id="calcArea" min="1" max="5000" value="25" step="1">
+              <input type="range" class="calc-range" id="calcAreaRange" min="1" max="200" value="25" step="1" aria-label="Ajustar área em metros quadrados">
+            </label>
+            <label id="calcExtraWrap">
+              <span class="mono">DEMÃOS / TIPO</span>
+              <select id="calcExtra">
+                <option value="ac1">Área interna (AC1)</option>
+                <option value="ac2">Área externa / úmida (AC2)</option>
+                <option value="ac3">Porcelanato / sobreposição (AC3)</option>
+              </select>
+            </label>
+          </div>
+          <div class="calc-result" id="calcResult"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATÁLOGO FULL DARK EDITORIAL (OPÇÃO 08: SPLIT + COMANDA TÉCNICA) -->
+  <section class="catalog reveal-section" id="catalogo">
+    <div class="wrap wrap--wide">
+      <div class="catalog__head">
+        <div>
+          <span class="mono" data-scramble>03 / CATÁLOGO DE BALCÃO · SPLIT + COMANDA TÉCNICA</span>
+          <h2>Preços reais, direto da prateleira.</h2>
+        </div>
+        <div class="catalog__head-meta">
+          <div class="avail-tabs" id="availTabs" role="group" aria-label="Disponibilidade">
+            <span class="tab-indicator" aria-hidden="true"></span>
+            <button class="avail-btn active" data-avail="all" aria-pressed="true">Todos</button>
+            <button class="avail-btn" data-avail="in" aria-pressed="false">Pronta entrega</button>
+            <button class="avail-btn" data-avail="out" aria-pressed="false">Sob consulta</button>
+          </div>
+          <select id="sortSelect" class="sort-select" aria-label="Ordenar produtos">
+            <option value="az">A – Z</option>
+            <option value="price-asc">Menor preço</option>
+            <option value="price-desc">Maior preço</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="catalog-rule" aria-hidden="true"></div>
+
+    <div class="wrap wrap--wide">
+      <div class="catalog-stage">
+        <!-- COLUNA 1: SIDEBAR DE SETORES -->
+        <aside class="sector-nav" aria-label="Filtrar por setor">
+          <div class="sector-nav__title mono">SETORES</div>
+          <div class="sector-nav__list" id="chips" role="tablist" aria-label="Departamentos"></div>
+        </aside>
+
+        <!-- COLUNA 2: BUSCA + LISTA EDITORIAL DE BALCÃO -->
+        <div class="stage-feed">
+          <div class="search stage-search">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="m21 21-4.3-4.3M19 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
+            <input id="search" type="search" placeholder="Buscar material, bitola ou código..." autocomplete="off" aria-label="Buscar produtos">
+            <button class="search__clear" id="searchClear" hidden aria-label="Limpar busca">×</button>
+          </div>
+
+          <!-- Atalhos rápidos de obra -->
+          <div class="quick-tags" id="quickTags" aria-label="Buscas frequentes">
+            <span class="mono">MAIS BUSCADOS:</span>
+            <button data-q="argamassa">Argamassa</button>
+            <button data-q="tinta">Tinta</button>
+            <button data-q="registro">Registro</button>
+            <button data-q="broca">Broca</button>
+            <button data-q="disjuntor">Disjuntor</button>
+            <button data-q="torneira">Torneira</button>
+            <button data-q="piso">Piso</button>
+            <button data-q="fechadura">Fechadura</button>
+          </div>
+
+          <!-- Kits Rápidos de Obra (1 clique) -->
+          <div class="quick-kits" id="quickKits" aria-label="Kits rápidos de obra">
+            <span class="mono quick-kits__label">KITS 1 CLIQUE:</span>
+            <button class="kit-pill" data-kit="piso"><span>+</span> Kit Assentamento Piso</button>
+            <button class="kit-pill" data-kit="pintura"><span>+</span> Kit Pintura Quarto</button>
+            <button class="kit-pill" data-kit="hidraulica"><span>+</span> Kit Reparo Hidráulico</button>
+          </div>
+
+          <div class="results-meta">
+            <span class="mono" id="resultCount">Carregando catálogo…</span>
+            <div class="results-meta__right">
+              <div class="erp-pill" id="erpSyncPill" hidden>
+                <span class="erp-pill__dot" id="erpSyncDot"></span>
+                <span class="mono" id="erpSyncText">Sincronizando ERP…</span>
+                <button class="erp-pill__btn" id="erpRefreshBtn" type="button" title="Atualizar catálogo do ERP agora" aria-label="Atualizar catálogo do ERP">↻</button>
+              </div>
+              <button class="link-reset" id="clearAllBtn" hidden>Limpar filtros</button>
+            </div>
+          </div>
+
+          <div class="editorial-list" id="grid" aria-live="polite"></div>
+
+          <div class="pager">
+            <button class="btn btn--outline" id="loadMore" hidden>Carregar mais</button>
+          </div>
+        </div>
+
+        <!-- COLUNA 3: COMANDA DE OBRA AO VIVO -->
+        <aside class="comanda" id="comandaPanel" aria-label="Comanda de obra">
+          <div class="comanda__head">
+            <div>
+              <span class="mono comanda__eyebrow">COMANDA DE OBRA</span>
+              <h3 class="comanda__title">Pedido para retirada</h3>
+            </div>
+            <button class="comanda__clear" id="comandaClear" hidden title="Limpar comanda">Limpar</button>
+          </div>
+
+          <div class="comanda__list" id="comandaList"></div>
+
+          <div class="comanda__foot">
+            <div class="comanda__total-row">
+              <span class="mono">TOTAL ESTIMADO</span>
+              <strong class="comanda__total" id="comandaTotal">R$ 0,00</strong>
+            </div>
+            <button class="btn btn--gold comanda__send" id="comandaSend" disabled>
+              Enviar no WhatsApp →
+            </button>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- A LOJA (Editorial Assimétrico) -->
+  <section class="store reveal-section" id="loja">
+    <div class="wrap store__grid">
+      <div class="store__copy">
+        <span class="mono" data-scramble>04 / A LOJA</span>
+        <h2>Balcão de quem entende de obra, sem enrolação.</h2>
+        <p class="store__lede">A CeR Casa e Reforma fica no coração do Nazaré e atende do pedreiro ao engenheiro, da pequena troca de reparo à reforma completa.</p>
+        <div class="pillars">
+          <article class="pillar">
+            <span class="mono pillar__num">01</span>
+            <div>
+              <h3>Preço fechado no balcão</h3>
+              <p>O valor que você vê no catálogo é o valor que você paga na loja.</p>
+            </div>
+          </article>
+          <article class="pillar">
+            <span class="mono pillar__num">02</span>
+            <div>
+              <h3>Estoque pra obra não parar</h3>
+              <p>Argamassa, tubo, fio, tinta, ferragem e ferramenta no mesmo lugar.</p>
+            </div>
+          </article>
+          <article class="pillar">
+            <span class="mono pillar__num">03</span>
+            <div>
+              <h3>Orientação técnica de verdade</h3>
+              <p>Não sabe a bitola, a medida ou o rendimento? Pergunta antes de levar.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="hours-card spotlight">
+        <div class="hours-card__head">
+          <span class="mono">HORÁRIO DE FUNCIONAMENTO</span>
+          <span class="hours__note" id="hoursNote">Aberta agora</span>
+        </div>
+        <table>
+          <tbody id="hoursTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTATO & MAPA -->
+  <section class="contact reveal-section" id="contato">
+    <div class="wrap contact__grid">
+      <div class="contact__info">
+        <span class="mono" data-scramble>05 / LOCALIZAÇÃO &amp; CONTATO</span>
+        <h2>Passa no balcão ou manda a lista no WhatsApp.</h2>
+        <address>
+          <strong>CeR Casa e Reforma</strong>
+          Rua Bezerra de Menezes, 72<br>
+          Nazaré · Belo Horizonte · MG<br>
+          <span class="mono">CEP 31990-420</span>
+        </address>
+        <div class="contact__actions">
+          <a class="btn btn--gold btn--lg magnetic" id="waLink" href="https://wa.me/5531982926011?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20CeR%20Casa%20e%20Reforma." target="_blank" rel="noopener">Chamar no WhatsApp</a>
+          <button class="btn btn--outline btn--lg magnetic" id="copyAddressBtn" type="button">Copiar endereço</button>
+          <a class="btn btn--outline btn--lg magnetic" href="https://maps.google.com/?q=Rua+Bezerra+de+Menezes+72+Nazar%C3%A9+Belo+Horizonte" target="_blank" rel="noopener">Google Maps ↗</a>
+        </div>
+      </div>
+      <div class="map-frame">
+        <div class="map-frame__bar">
+          <span class="mono">NAZARÉ · BH/MG</span>
+          <span class="mono">-19.8654° S · -43.9182° W</span>
+        </div>
+        <div class="map">
+          <iframe title="Mapa — Rua Bezerra de Menezes, 72, Nazaré, Belo Horizonte"
+            src="https://maps.google.com/maps?q=Rua%20Bezerra%20de%20Menezes%2072%20Nazar%C3%A9%20Belo%20Horizonte&z=16&output=embed"
+            loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__grid">
+    <div class="foot__brand">
+      <strong>CeR Casa &amp; Reforma</strong>
+      <p>Rua Bezerra de Menezes, 72 · Nazaré, Belo Horizonte — MG · CEP 31990-420</p>
+      <span class="mono">SEG–SEX 08–18H · SÁB 08–14H · DOM 08–12H</span>
+    </div>
+    <div class="foot__links" id="footLinks">
+      <span class="mono">SETORES PRINCIPAIS</span>
+      <div class="foot__sectors" id="footSectors"></div>
+    </div>
+    <div class="foot__meta">
+      <a class="foot__top-link mono" href="#topo">VOLTAR AO TOPO ↑</a>
+      <span>© <span id="year"></span> CeR Casa e Reforma</span>
+      <span class="mono">SOLUÇÕES CONSTRUTIVAS PRA SUA OBRA</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Botão Voltar ao Topo com anel de progresso circular -->
+<button class="back-top magnetic" id="backToTop" aria-label="Voltar ao topo" title="Voltar ao topo">
+  <svg class="back-top__ring" viewBox="0 0 44 44" aria-hidden="true">
+    <circle class="back-top__track" cx="22" cy="22" r="19"/>
+    <circle class="back-top__fill" id="backTopRing" cx="22" cy="22" r="19"/>
+  </svg>
+  <svg class="back-top__arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<!-- Barra flutuante de orçamento -->
+<div class="quote-dock" id="quoteDock" aria-hidden="true">
+  <div class="quote-dock__inner">
+    <div class="quote-dock__info">
+      <strong id="quoteCount">0 itens</strong>
+      <span class="mono" id="quoteTotal">R$ 0,00</span>
+    </div>
+    <button class="btn btn--gold" id="openDrawerDock">Revisar e enviar</button>
+  </div>
+</div>
+
+<!-- Drawer lateral de orçamento -->
+<div class="drawer-backdrop" id="drawerBackdrop" aria-hidden="true"></div>
+<aside class="drawer" id="drawer" aria-label="Lista de orçamento" aria-hidden="true">
+  <div class="drawer__head">
+    <div>
+      <span class="mono">LISTA DE ORÇAMENTO</span>
+      <h3>Seu pedido no balcão</h3>
+    </div>
+    <button class="drawer__close" id="closeDrawer" aria-label="Fechar lista">×</button>
+  </div>
+  <div class="drawer__body" id="drawerBody"></div>
+  <div class="drawer__foot">
+    <div class="drawer__summary">
+      <span>Estimativa de balcão</span>
+      <strong class="mono" id="drawerTotal">R$ 0,00</strong>
+    </div>
+    <button class="btn btn--gold btn--lg drawer__send" id="quoteSend">Enviar lista no WhatsApp</button>
+    <button class="drawer__clear" id="quoteClear">Limpar toda a lista</button>
+  </div>
+</aside>
+
+<!-- Command Palette (Ctrl+K / ⌘K) -->
+<div class="cmd-backdrop" id="cmdBackdrop" aria-hidden="true">
+  <div class="cmd-modal" role="dialog" aria-modal="true" aria-label="Busca rápida de materiais">
+    <div class="cmd-head">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="cmdInput" type="search" placeholder="Digite o material ou código (ex.: cimento, luva 25, tinta)…" autocomplete="off">
+      <kbd>ESC</kbd>
+    </div>
+    <div class="cmd-results" id="cmdResults"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="produtos.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

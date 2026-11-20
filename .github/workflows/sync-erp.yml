@@ -1,0 +1,48 @@
+name: Sincronizar Catálogo ERP (CentauroCloud)
+
+on:
+  schedule:
+    # Roda de hora em hora das 08h às 19h (horário de Brasília = 11h às 22h UTC)
+    - cron: "0 11-22 * * *"
+  workflow_dispatch: # Permite clicar em "Run workflow" manualmente no GitHub
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar Playwright + Chromium
+        run: |
+          pip install --upgrade pip playwright
+          playwright install chromium
+
+      - name: Consultar produtos, preços e estoque no CentauroCloud
+        env:
+          ERP_URL: ${{ secrets.ERP_URL }}
+          ERP_EMPRESA: ${{ secrets.ERP_EMPRESA }}
+          ERP_USER: ${{ secrets.ERP_USER }}
+          ERP_PASS: ${{ secrets.ERP_PASS }}
+        run: python sync_erp.py
+
+      - name: Publicar alterações no catálogo (se houver mudanças)
+        run: |
+          git config user.name "CeR ERP Bot"
+          git config user.email "bot@cercasaereforma.com.br"
+          if git diff --quiet produtos.json produtos.js produtos-meta.json; then
+            echo "Nenhuma alteração de preço ou estoque desde a última sincronização."
+          else
+            git add produtos.json produtos.js produtos-meta.json
+            git commit -m "chore: atualizar catalogo ERP ($(date -u -d '-3 hours' +'%d/%m %H:%M'))"
+            git push
+          fi
