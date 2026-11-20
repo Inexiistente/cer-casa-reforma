@@ -1129,10 +1129,34 @@ function initCatalog(data, animateCounters = true) {
 }
 
 /* Sincronizacao automatica em tempo real com o ERP CentauroCloud */
+async function loadStaticMeta(pill, txt) {
+  try {
+    const mRes = await fetch("produtos-meta.json", { cache: "no-store" });
+    if (mRes.ok) {
+      const meta = await mRes.json();
+      if (pill && txt && meta.atualizado_em) {
+        pill.hidden = false;
+        pill.classList.remove("is-syncing");
+        pill.classList.add("is-synced");
+        txt.textContent = `TABELA ERP · ${meta.atualizado_em}`;
+        const btn = $("#erpRefreshBtn");
+        if (btn) btn.hidden = true;
+        return;
+      }
+    }
+  } catch {}
+  if (pill) pill.hidden = true;
+}
+
 async function syncFromERP(force = false) {
   if (location.protocol === "file:") return;
   const pill = $("#erpSyncPill");
   const txt = $("#erpSyncText");
+  const isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
+  if (!isLocal) {
+    await loadStaticMeta(pill, txt);
+    return;
+  }
   if (pill && txt) {
     pill.hidden = false;
     pill.classList.remove("is-synced");
@@ -1157,23 +1181,7 @@ async function syncFromERP(force = false) {
       if (force) toast(`Catálogo atualizado do ERP (${payload.total.toLocaleString("pt-BR")} itens)`);
     }
   } catch {
-    // Em hospedagem estatica (cercasaereforma.com.br), mostra o carimbo da ultima atualizacao do GitHub Actions
-    try {
-      const mRes = await fetch("produtos-meta.json", { cache: "no-store" });
-      if (mRes.ok) {
-        const meta = await mRes.json();
-        if (pill && txt && meta.atualizado_em) {
-          pill.hidden = false;
-          pill.classList.remove("is-syncing");
-          pill.classList.add("is-synced");
-          txt.textContent = `TABELA ERP · ${meta.atualizado_em}`;
-          const btn = $("#erpRefreshBtn");
-          if (btn) btn.hidden = true;
-          return;
-        }
-      }
-    } catch {}
-    if (pill) pill.hidden = true;
+    await loadStaticMeta(pill, txt);
   }
 }
 
