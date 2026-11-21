@@ -984,14 +984,19 @@ $("#grid").addEventListener("click", (e) => {
 /* Quick Kits 1-Clique */
 const KIT_RECIPES = {
   piso: [
-    { q: "argamassa", qty: 4 },
-    { q: "rejunte", qty: 2 },
-    { q: "espacador", qty: 1 },
+    { code: "0145", q: "argamassa ac 2 x 20 kg", qty: 2 },
+    { code: "3470", q: "espacador nivelador 2,0m cortag slim", qty: 1 },
+    { code: "3464", q: "cunha c/100 unidades cortag slim", qty: 1 },
+    { code: "1434", q: "rejunte branco 1 kg urso polar", qty: 1 },
+    { code: "0839", q: "espatula para rejunte", qty: 1 },
   ],
   pintura: [
-    { q: "tinta", qty: 1 },
-    { q: "rolo", qty: 1 },
-    { q: "fita crepe", qty: 1 },
+    { code: "2395", q: "tinta acrilica bemalar bca 3,6", qty: 1 },
+    { code: "1768", q: "trincha 2", qty: 1 },
+    { code: "0971", q: "fita crepe 24mmx50m", qty: 1 },
+    { code: "0156", q: "bandeja pintura pvc", qty: 1 },
+    { code: "2222", q: "rolo la antirespingo 23cm", qty: 1 },
+    { code: "2077", q: "lixa d. agua ''120'' norton", qty: 2 },
   ],
   hidraulica: [
     { q: "fita veda", qty: 2 },
@@ -1008,8 +1013,16 @@ if (quickKitsEl) {
     if (!recipe) return;
     let added = 0;
     for (const step of recipe) {
-      const nq = norm(step.q);
-      const match = PRODUCTS.find((p) => p.s && norm(p.n).includes(nq)) || PRODUCTS.find((p) => norm(p.n).includes(nq));
+      let match = null;
+      if (step.code) {
+        const cleanCode = step.code.replace(/^0+/, "");
+        match = PRODUCTS.find((p) => p.c === step.code)
+          || PRODUCTS.find((p) => p.c.replace(/^0+/, "") === cleanCode);
+      }
+      if (!match && step.q) {
+        const nq = norm(step.q);
+        match = PRODUCTS.find((p) => p.s && norm(p.n).includes(nq)) || PRODUCTS.find((p) => norm(p.n).includes(nq));
+      }
       if (match) {
         const cur = quote.get(match.c);
         quote.set(match.c, { product: match, qty: (cur ? cur.qty : 0) + step.qty });
@@ -1187,9 +1200,12 @@ function initCatalog(data, animateCounters = true) {
 }
 
 /* Sincronizacao automatica em tempo real com o ERP CentauroCloud */
+let lastStaticMetaStamp = null;
+let staticMetaTimer = null;
+
 async function loadStaticMeta(pill, txt) {
   try {
-    const mRes = await fetch("produtos-meta.json", { cache: "no-store" });
+    const mRes = await fetch(`produtos-meta.json?t=${Date.now()}`, { cache: "no-store" });
     if (mRes.ok) {
       const meta = await mRes.json();
       if (pill && txt && meta.atualizado_em) {
@@ -1199,11 +1215,27 @@ async function loadStaticMeta(pill, txt) {
         txt.textContent = `TABELA ERP · ${meta.atualizado_em}`;
         const btn = $("#erpRefreshBtn");
         if (btn) btn.hidden = true;
+
+        if (meta.atualizado_em !== lastStaticMetaStamp) {
+          const prevStamp = lastStaticMetaStamp;
+          lastStaticMetaStamp = meta.atualizado_em;
+          try {
+            const pRes = await fetch(`produtos.json?v=${encodeURIComponent(meta.atualizado_em)}`, { cache: "no-store" });
+            if (pRes.ok) {
+              const fresh = await pRes.json();
+              if (Array.isArray(fresh) && fresh.length > 0) {
+                initCatalog(fresh, false);
+              }
+            }
+          } catch {
+            if (!prevStamp) lastStaticMetaStamp = null;
+          }
+        }
         return;
       }
     }
   } catch {}
-  if (pill) pill.hidden = true;
+  if (!lastStaticMetaStamp && pill) pill.hidden = true;
 }
 
 async function syncFromERP(force = false) {
@@ -1213,6 +1245,11 @@ async function syncFromERP(force = false) {
   const isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
   if (!isLocal) {
     await loadStaticMeta(pill, txt);
+    if (!staticMetaTimer) {
+      staticMetaTimer = setInterval(() => {
+        if (!document.hidden) loadStaticMeta(pill, txt);
+      }, 5 * 60 * 1000);
+    }
     return;
   }
   if (pill && txt) {
