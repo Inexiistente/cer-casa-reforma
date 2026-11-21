@@ -623,9 +623,12 @@ function render(animateList = false) {
   }
 
   $("#resultCount").textContent = `${list.length.toLocaleString("pt-BR")} ${list.length === 1 ? "ITEM ENCONTRADO" : "ITENS ENCONTRADOS"}`;
+  const remaining = Math.max(0, list.length - state.shown);
   const more = $("#loadMore");
-  more.hidden = state.shown >= list.length;
-  more.textContent = `Carregar mais (${Math.min(PAGE, list.length - state.shown)} de ${list.length - state.shown} restantes)`;
+  more.hidden = remaining === 0;
+  if (remaining > 0) {
+    more.textContent = `Carregar mais (${Math.min(PAGE, remaining)} de ${remaining} restantes)`;
+  }
 }
 
 function buildChips() {
