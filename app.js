@@ -324,12 +324,48 @@ function moveSectorIndicator() {
   ind.style.opacity = "1";
 }
 
+/* Sinônimos e abreviações reais do ERP para busca inteligente */
+const SEARCH_ALIASES = {
+  torneira: ["torneira", "torn.", "torn "],
+  torneiras: ["torneira", "torn.", "torn "],
+  registro: ["registro", "reg.", "reg "],
+  registros: ["registro", "reg.", "reg "],
+  caixa: ["caixa", "cx ", "cx."],
+  mangueira: ["mangueira", "mang.", "mang "],
+  armario: ["armario", "arm."],
+  aluminio: ["aluminio", "alum."],
+  acabamento: ["acabamento", "acab."],
+  parafuso: ["parafuso", "paraf."],
+  parafusos: ["parafuso", "paraf."],
+  valvula: ["valvula", "valv."],
+  disjuntor: ["disjuntor", "disj."],
+  chuveiro: ["chuveiro", "ducha"],
+  ducha: ["ducha", "chuveiro"],
+  esgoto: ["esgoto", "esg."],
+  soldavel: ["soldavel", "sold."],
+  roscavel: ["roscavel", "rosc."],
+};
+
+function matchesTokens(hay, normalizedQuery) {
+  return normalizedQuery.split(/\s+/).every((w) => {
+    const alts = SEARCH_ALIASES[w];
+    return alts ? alts.some((a) => hay.includes(a)) : hay.includes(w);
+  });
+}
+
 /* Search Highlight helper */
 function highlightText(str, rawQuery) {
   if (!rawQuery) return str;
-  const terms = rawQuery.trim().split(/\s+/).filter((w) => w.length >= 2);
-  if (!terms.length) return str;
-  const esc = terms.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  const rawTerms = rawQuery.trim().split(/\s+/).filter((w) => w.length >= 2);
+  if (!rawTerms.length) return str;
+  const expanded = new Set();
+  for (const t of rawTerms) {
+    expanded.add(t);
+    const alts = SEARCH_ALIASES[norm(t)];
+    if (alts) alts.forEach((a) => expanded.add(a.trim()));
+  }
+  const esc = [...expanded].filter((w) => w.length >= 2).map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  if (!esc.length) return str;
   const re = new RegExp(`(${esc.join("|")})`, "gi");
   return str.replace(re, `<mark class="hl">$1</mark>`);
 }
@@ -541,7 +577,7 @@ function matches(p) {
   if (state.avail === "out" && p.s) return false;
   if (state.q) {
     const hay = norm(`${p.n} ${p.c} ${p.g}`);
-    if (!state.q.split(/\s+/).every((w) => hay.includes(w))) return false;
+    if (!matchesTokens(hay, state.q)) return false;
   }
   return true;
 }
@@ -623,11 +659,12 @@ function render(animateList = false) {
   }
 
   $("#resultCount").textContent = `${list.length.toLocaleString("pt-BR")} ${list.length === 1 ? "ITEM ENCONTRADO" : "ITENS ENCONTRADOS"}`;
-  const remaining = Math.max(0, list.length - state.shown);
+  const shownCount = Math.min(state.shown, list.length);
+  const remaining = Math.max(0, list.length - shownCount);
   const more = $("#loadMore");
   more.hidden = remaining === 0;
   if (remaining > 0) {
-    more.textContent = `Carregar mais (${Math.min(PAGE, remaining)} de ${remaining} restantes)`;
+    more.textContent = `Carregar mais · mostrando ${shownCount.toLocaleString("pt-BR")} de ${list.length.toLocaleString("pt-BR")}`;
   }
 }
 
@@ -855,7 +892,7 @@ function renderCmd(q) {
   const list = nq
     ? PRODUCTS.filter((p) => {
         const hay = norm(`${p.n} ${p.c} ${p.g}`);
-        return nq.split(/\s+/).every((w) => hay.includes(w));
+        return matchesTokens(hay, nq);
       }).slice(0, 12)
     : PRODUCTS.slice(0, 8);
 
