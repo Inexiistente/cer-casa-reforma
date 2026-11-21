@@ -128,20 +128,38 @@ function initScrollEffects() {
   onScroll();
 
   const sections = document.querySelectorAll(".reveal-section");
+  const revealEl = (el) => {
+    if (!el || el.classList.contains("is-visible")) return;
+    el.classList.add("is-visible");
+    el.querySelectorAll("[data-scramble]").forEach(scrambleText);
+  };
+
   if (!("IntersectionObserver" in window)) {
-    sections.forEach((s) => s.classList.add("is-visible"));
+    sections.forEach(revealEl);
     return;
   }
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
       if (e.isIntersecting) {
-        e.target.classList.add("is-visible");
-        e.target.querySelectorAll("[data-scramble]").forEach(scrambleText);
+        revealEl(e.target);
         io.unobserve(e.target);
       }
     });
-  }, { threshold: 0.08 });
+  }, { threshold: 0, rootMargin: "0px 0px -40px 0px" });
   sections.forEach((s) => io.observe(s));
+
+  // Garantia extra em telas baixas / mobile: revela qualquer secao que ja entrou na tela
+  const checkVisible = () => {
+    const vh = window.innerHeight || 800;
+    sections.forEach((s) => {
+      if (!s.classList.contains("is-visible") && s.getBoundingClientRect().top < vh + 40) {
+        revealEl(s);
+        io.unobserve(s);
+      }
+    });
+  };
+  window.addEventListener("scroll", checkVisible, { passive: true });
+  requestAnimationFrame(checkVisible);
 }
 
 /* Velocity-reactive Marquee (Jitter physics) */
