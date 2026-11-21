@@ -31,7 +31,7 @@ No seu repositório no GitHub, vá em **Settings → Secrets and variables → A
 | `ERP_USER` | *(seu usuário de login do CentauroCloud)* |
 | `ERP_PASS` | *(sua senha de login do CentauroCloud)* |
 
-Pronto! O workflow **Sincronizar Catálogo ERP (CentauroCloud)** vai rodar automaticamente **de hora em hora entre 08h e 19h** (horário de Brasília), e você também pode disparar manualmente a qualquer momento em **Actions → Sincronizar Catálogo ERP → Run workflow**.
+Pronto! O workflow **Sincronizar Catálogo ERP (CentauroCloud)** vai rodar automaticamente **de 30 em 30 minutos entre 08h e 18h** (horário de Brasília, nos minutos :07 e :37 para evitar filas do GitHub Actions), e você também pode disparar manualmente a qualquer momento em **Actions → Sincronizar Catálogo ERP → Run workflow**.
 
 ---
 

@@ -2,12 +2,20 @@ name: Sincronizar Catálogo ERP (CentauroCloud)
 
 on:
   schedule:
-    # Roda de hora em hora das 08h às 19h (horário de Brasília = 11h às 22h UTC)
-    - cron: "0 11-22 * * *"
+    # Roda de 30 em 30 min das 08h às 18h (horário de Brasília = 11h às 21h UTC)
+    # Minutos 7 e 37 evitam o pico de fila do GitHub Actions em :00 e :30
+    - cron: "7,37 11-20 * * *"
+    - cron: "7 21 * * *"
   workflow_dispatch: # Permite clicar em "Run workflow" manualmente no GitHub
+  repository_dispatch:
+    types: [sync-erp] # Permite disparo externo via cron-job.org / API se desejar
 
 permissions:
   contents: write
+
+concurrency:
+  group: sync-erp
+  cancel-in-progress: false
 
 jobs:
   sync:
@@ -44,5 +52,6 @@ jobs:
           else
             git add produtos.json produtos.js produtos-meta.json
             git commit -m "chore: atualizar catalogo ERP ($(date -u -d '-3 hours' +'%d/%m %H:%M'))"
+            git pull --rebase origin main
             git push
           fi
