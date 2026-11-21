@@ -984,9 +984,11 @@ $("#grid").addEventListener("click", (e) => {
 /* Quick Kits 1-Clique */
 const KIT_RECIPES = {
   piso: [
-    { q: "argamassa", qty: 4 },
-    { q: "rejunte", qty: 2 },
-    { q: "espacador", qty: 1 },
+    { code: "0145", q: "argamassa ac 2 x 20 kg", qty: 2 },
+    { code: "3470", q: "espacador nivelador 2,0m cortag slim", qty: 1 },
+    { code: "3464", q: "cunha c/100 unidades cortag slim", qty: 1 },
+    { code: "1434", q: "rejunte branco 1 kg urso polar", qty: 1 },
+    { code: "0839", q: "espatula para rejunte", qty: 1 },
   ],
   pintura: [
     { code: "2395", q: "tinta acrilica bemalar bca 3,6", qty: 1 },
