@@ -13,7 +13,7 @@
 <meta property="og:title" content="CeR Casa e Reforma — Soluções construtivas pra sua obra">
 <meta property="og:description" content="Catálogo de balcão com preços reais em Nazaré, BH. Monte sua lista de obra e envie direto no WhatsApp.">
 <meta property="og:image" content="https://cercasaereforma.com.br/assets/logo.jpeg">
-<meta name="theme-color" content="#0a0a09">
+<meta name="theme-color" id="themeColorMeta" content="#0a0a09">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
@@ -21,6 +21,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,500;0,700;0,800;0,900;1,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+(function () {
+  try {
+    if (localStorage.getItem("cer_theme") === "light") {
+      document.documentElement.setAttribute("data-theme", "light");
+      var m = document.getElementById("themeColorMeta");
+      if (m) m.setAttribute("content", "#f5f2eb");
+    }
+  } catch (e) {}
+})();
+</script>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -59,6 +70,10 @@
     </nav>
 
     <div class="top__actions">
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Alternar para modo claro" aria-pressed="false" title="Alternar modo claro / escuro">
+        <span class="theme-toggle__icon" id="themeIcon" aria-hidden="true">☀</span>
+        <span class="theme-toggle__label" id="themeLabel">Claro</span>
+      </button>
       <button class="cmd-trigger" id="openCmd" title="Busca rápida (Ctrl+K)">
         <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         <span>Buscar</span>
@@ -80,69 +95,67 @@
 </header>
 
 <main id="topo">
-  <!-- HERO EDITORIAL + BLUEPRINT -->
+  <!-- HERO EDITORIAL COM BUSCA DIRETA E FOTO REAL DO BALCÃO -->
   <section class="hero">
-    <canvas class="hero__grid-bg" id="blueprintCanvas" aria-hidden="true"></canvas>
-    <div class="wrap hero__inner">
-      <div class="hero__kicker">
-        <span class="mono">CATÁLOGO DE BALCÃO · EDIÇÃO 2026</span>
-        <span class="mono" id="todayHours">HOJE 08:00 – 18:00</span>
-      </div>
-
-      <h1 class="hero__title" id="heroTitle">
-        <span class="reveal-line">
-          <span class="word-mask" style="--w:0"><span>A</span></span>
-          <span class="word-mask" style="--w:1"><span>obra</span></span>
-          <span class="word-mask" style="--w:2"><span>não</span></span>
-          <span class="word-mask" style="--w:3"><span>espera.</span></span>
-        </span>
-        <span class="reveal-line accent-line">
-          <span class="word-mask" style="--w:4"><span class="accent">A</span></span>
-          <span class="word-mask" style="--w:5"><span class="accent">gente</span></span>
-          <span class="word-mask" style="--w:6"><span class="accent">resolve</span></span>
-          <span class="word-mask" style="--w:7"><span class="accent">no</span></span>
-          <span class="word-mask" style="--w:8"><span class="accent">balcão.</span></span>
-        </span>
-      </h1>
-
-      <div class="hero__split">
-        <div class="hero__lead">
-          <p>Se o cimento faltar, a gente resolve. Se a tinta não combinar, a gente aconselha. Se a dúvida bater, a gente orienta antes de você comprar errado.</p>
-          <div class="hero__cta">
-            <a class="btn btn--gold btn--lg magnetic" href="#catalogo">Explorar <span id="countInline">2.943</span> itens</a>
-            <a class="btn btn--outline btn--lg magnetic" href="#calculadora">Calcular material</a>
-          </div>
+    <div class="wrap hero__grid">
+      <div class="hero__content">
+        <div class="hero__kicker">
+          <span class="mono hero__kicker-tag">CATÁLOGO DE BALCÃO · EDIÇÃO 2026</span>
+          <span class="mono hero__kicker-sep" aria-hidden="true">·</span>
+          <span class="mono" id="todayHours">HOJE 08:00 – 18:00</span>
         </div>
 
-        <!-- Ficha técnica da loja (Spotlight Specimen Card) -->
-        <aside class="specimen spotlight tilt-card" aria-label="Resumo da loja">
-          <div class="specimen__head">
-            <img src="assets/logo.jpeg" alt="Logo CeR" width="56" height="56">
-            <div>
-              <span class="mono specimen__tag">LOJA FÍSICA · NAZARÉ</span>
-              <strong>CeR Casa e Reforma</strong>
-            </div>
+        <h1 class="hero__title" id="heroTitle">
+          A obra não espera.<br>
+          <span class="accent">A gente resolve no balcão.</span>
+        </h1>
+
+        <p class="hero__lead">
+          Se o cimento faltar, a gente resolve. Se a dúvida bater, a gente orienta antes de você comprar errado — preços reais direto da prateleira.
+        </p>
+
+        <form class="hero-search" id="heroSearchForm" role="search">
+          <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input id="heroSearch" type="search" placeholder="Buscar material, bitola ou código (ex.: argamassa AC3, registro 3/4)…" autocomplete="off" aria-label="Buscar material no catálogo">
+          <button class="btn btn--gold hero-search__btn" type="submit">Buscar</button>
+        </form>
+
+        <div class="hero-shortcuts">
+          <div class="hero-tags" id="heroTags" aria-label="Atalhos rápidos de busca">
+            <button type="button" data-q="argamassa">Argamassa</button>
+            <button type="button" data-q="tinta">Tintas</button>
+            <button type="button" data-q="registro">Hidráulica</button>
+            <button type="button" data-q="disjuntor">Elétrica</button>
+            <button type="button" data-q="broca">Ferramentas</button>
           </div>
-          <dl class="specimen__stats">
-            <div>
-              <dt>Itens no estoque</dt>
-              <dd class="mono" data-count="2943" id="countFact">2.943</dd>
-            </div>
-            <div>
-              <dt>Departamentos</dt>
-              <dd class="mono" data-count="16" id="deptCountFact">16</dd>
-            </div>
-            <div>
-              <dt>Atendimento</dt>
-              <dd class="mono">7 dias/sem</dd>
-            </div>
-          </dl>
-          <div class="specimen__foot">
-            <span class="mono">CEP 31990-420 · BH/MG</span>
-            <a href="https://wa.me/5531982926011?text=Ol%C3%A1%2C%20preciso%20de%20ajuda%20com%20um%20material" target="_blank" rel="noopener">Tirar dúvida →</a>
-          </div>
-        </aside>
+          <a class="hero-calc-link" href="#calculadora">Calcular material →</a>
+        </div>
       </div>
+
+      <!-- Foto real editada do balcão da loja -->
+      <aside class="hero-photo" aria-label="Balcão da loja CeR Casa e Reforma">
+        <div class="hero-photo__media">
+          <span class="photo-pill">BALCÃO FÍSICO · NAZARÉ, BH</span>
+          <img src="assets/balcao.jpg" alt="Balcão de atendimento e painel de ferramentas da CeR Casa e Reforma no bairro Nazaré, Belo Horizonte" width="1200" height="904" fetchpriority="high">
+          <div class="hero-photo__bar">
+            <dl class="hero-photo__stats">
+              <div>
+                <dd class="mono" data-count="2949" id="countFact">2.949</dd>
+                <dt>Itens no ERP</dt>
+              </div>
+              <div>
+                <dd class="mono" data-count="14" id="deptCountFact">14</dd>
+                <dt>Setores</dt>
+              </div>
+              <div>
+                <dd class="mono">7 dias</dd>
+                <dt>Por semana</dt>
+              </div>
+            </dl>
+            <a class="hero-photo__cta" href="https://wa.me/5531982926011?text=Ol%C3%A1%2C%20preciso%20de%20ajuda%20com%20um%20material" target="_blank" rel="noopener">Tirar dúvida →</a>
+          </div>
+        </div>
+      </aside>
     </div>
   </section>
 
