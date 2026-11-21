@@ -31,7 +31,15 @@ No seu repositório no GitHub, vá em **Settings → Secrets and variables → A
 | `ERP_USER` | *(seu usuário de login do CentauroCloud)* |
 | `ERP_PASS` | *(sua senha de login do CentauroCloud)* |
 
-Pronto! O workflow **Sincronizar Catálogo ERP (CentauroCloud)** vai rodar automaticamente **de 30 em 30 minutos entre 08h e 18h** (horário de Brasília, nos minutos :07 e :37 para evitar filas do GitHub Actions), e você também pode disparar manualmente a qualquer momento em **Actions → Sincronizar Catálogo ERP → Run workflow**.
+Pronto! O workflow **Sincronizar Catálogo ERP (CentauroCloud)** está configurado para rodar **de 30 em 30 minutos entre 08h e 18h** (horário de Brasília, nos minutos :07 e :37), e você também pode disparar manualmente a qualquer momento em **Actions → Sincronizar Catálogo ERP → Run workflow**.
+
+> **Dica de confiabilidade (100% pontual a cada 30 min):** o agendador nativo (`schedule`) do GitHub Actions funciona em modo *best-effort* e pode atrasar ou pular horários sob carga. Para disparo garantido no minuto exato (08:00, 08:30, ..., 18:00 BRT), crie um agendamento gratuito no [cron-job.org](https://cron-job.org/):
+> - **URL:** `https://api.github.com/repos/Inexiistente/cer-casa-reforma/actions/workflows/sync-erp.yml/dispatches`
+> - **Método:** `POST`
+> - **Headers:** `Accept: application/vnd.github+json`, `Authorization: Bearer SEU_TOKEN_GITHUB`, `Content-Type: application/json`, `X-GitHub-Api-Version: 2022-11-28`
+> - **Body:** `{"ref":"main"}`
+> - **Horário (America/Sao_Paulo):** minutos `0, 30` · horas `8..18` (ou `0, 30` das `8` às `17` + `0` às `18`).
+> - O token é um **Fine-grained Personal Access Token** do GitHub com permissão apenas em `Inexiistente/cer-casa-reforma` → **Actions: Read and write**.
 
 ---
 
