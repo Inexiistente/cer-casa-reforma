@@ -560,15 +560,35 @@ $("#calcResult").addEventListener("click", (e) => {
   $("#catalogo").scrollIntoView();
 });
 
-function applySearch(term) {
-  $("#search").value = term;
-  $("#searchClear").hidden = term === "";
-  state.q = norm(term);
+function applySearch(term, scrollToCatalog = false) {
+  const clean = String(term || "").trim();
+  $("#search").value = clean;
+  $("#searchClear").hidden = clean === "";
+  const heroInput = $("#heroSearch");
+  if (heroInput && document.activeElement !== heroInput) heroInput.value = clean;
+  state.q = norm(clean);
   state.cat = "Todos";
   state.shown = PAGE;
   document.querySelectorAll(".sector-btn").forEach((x) => x.setAttribute("aria-selected", x.dataset.cat === "Todos"));
   moveSectorIndicator();
   render(true);
+  if (scrollToCatalog) $("#catalogo").scrollIntoView();
+}
+
+const heroSearchForm = $("#heroSearchForm");
+if (heroSearchForm) {
+  heroSearchForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    applySearch($("#heroSearch").value, true);
+  });
+}
+const heroTagsEl = $("#heroTags");
+if (heroTagsEl) {
+  heroTagsEl.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-q]");
+    if (!b) return;
+    applySearch(b.dataset.q, true);
+  });
 }
 
 function matches(p) {
@@ -1157,6 +1177,38 @@ if (copyAddrBtn) {
 $("#waLink").href = waLink("Olá! Vim pelo site da CeR Casa e Reforma.");
 $("#year").textContent = new Date().getFullYear();
 
+function initThemeToggle() {
+  const btn = $("#themeToggle");
+  const icon = $("#themeIcon");
+  const label = $("#themeLabel");
+  const meta = $("#themeColorMeta");
+  if (!btn) return;
+
+  function syncThemeUI() {
+    const isLight = document.documentElement.getAttribute("data-theme") === "light";
+    btn.setAttribute("aria-pressed", isLight ? "true" : "false");
+    btn.setAttribute("aria-label", isLight ? "Alternar para modo escuro" : "Alternar para modo claro");
+    if (icon) icon.textContent = isLight ? "☾" : "☀";
+    if (label) label.textContent = isLight ? "Escuro" : "Claro";
+    if (meta) meta.setAttribute("content", isLight ? "#f5f2eb" : "#0a0a09");
+  }
+
+  btn.addEventListener("click", () => {
+    const isLight = document.documentElement.getAttribute("data-theme") === "light";
+    if (isLight) {
+      document.documentElement.removeAttribute("data-theme");
+      try { localStorage.setItem("cer_theme", "dark"); } catch {}
+    } else {
+      document.documentElement.setAttribute("data-theme", "light");
+      try { localStorage.setItem("cer_theme", "light"); } catch {}
+    }
+    syncThemeUI();
+  });
+
+  syncThemeUI();
+}
+
+initThemeToggle();
 setupHours();
 initScrollEffects();
 initVelocityMarquee();
@@ -1181,7 +1233,8 @@ function initCatalog(data, animateCounters = true) {
   const formatted = data.length.toLocaleString("pt-BR");
   if (animateCounters) animateCount($("#countFact"), data.length, 950);
   else $("#countFact").textContent = formatted;
-  $("#countInline").textContent = formatted;
+  const countInline = $("#countInline");
+  if (countInline) countInline.textContent = formatted;
 
   // Atualiza precos/estoque na comanda aberta caso tenham mudado no ERP
   if (quote.size > 0) {
