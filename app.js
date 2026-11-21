@@ -999,9 +999,10 @@ const KIT_RECIPES = {
     { code: "2077", q: "lixa d. agua ''120'' norton", qty: 2 },
   ],
   hidraulica: [
-    { q: "fita veda", qty: 2 },
-    { q: "registro", qty: 1 },
-    { q: "luva", qty: 2 },
+    { code: "0061", q: "veda rosca 18mmx10m plastubos", qty: 1 },
+    { code: "0005", q: "adesivo plastico plastubos bisn. 75g", qty: 1 },
+    { code: "1532", q: "lamina serra starret amarela", qty: 1 },
+    { code: "2075", q: "lixa d. agua ''80'' norton", qty: 1 },
   ],
 };
 const quickKitsEl = $("#quickKits");
